@@ -116,7 +116,7 @@ To print the backtrace of the levels of the stack, use
 or simply
 ```bt```
 
-### Print next assembly instructions
+#### Print next assembly instructions
 To set up GDB to print the next few assembly instructions (e.g., the current one + the next three), use
 ```display/4i $pc```
 
