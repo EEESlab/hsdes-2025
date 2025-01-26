@@ -27,3 +27,7 @@ docker pull fconti/hsdes-container
 docker run --rm -it -v "$(pwd)":/workspaces -w /workspaces fconti/hsdes-container
 ```
 4. The Docker terminal that is opened will contain an already configured workspace. The lab folder will be mounted under `/workspaces`.
+
+## Useful links
+- [Unix Shell Crash Course](https://youtu.be/8c1BL5b47kg?si=ERFHHlTKjS7n1gQI): for students who are out of their depth when working in a shell CLI environment.
+- [Beej's Guide to C Programming](https://beej.us/guide/bgc/): a useful, and quite fun, guide to the C language.
