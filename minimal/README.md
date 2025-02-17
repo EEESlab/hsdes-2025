@@ -120,3 +120,48 @@ or simply
 To set up GDB to print the next few assembly instructions (e.g., the current one + the next three), use
 ```display/4i $pc```
 
+## RISC-V assembly cheat sheet
+See https://github.com/riscv-non-isa/riscv-asm-manual/blob/main/src/asm-manual.adoc for more details.
+
+#### `la rd, symbol`
+Load address pseudo-instruction; gets decoupled into two real instructions: `auipc rd, symbol[31:12]` and `addi rd, rd, symbol[11:0]`.
+
+#### `auipc rd, imm`
+Adds 20-bit upper immediate `imm` (i.e., shifted left by 12) to current program counter, then stores the result in `rd`.
+
+#### `addi rd, rs1, imm`
+Adds sign-extended 12-bit immediate `imm` to `rs1`, then stores the result in `rd`.
+
+#### `jr rd`
+Pseudo-instruction; gets translated into `jalr rd, x0, 0`.
+
+#### `jalr rd, rs1, imm`
+Indirect jump-and-link-register instruction; jumps to the address obtained by adding the sign-extended 12-bit immediate `imm` to `rs1`.
+To provide link functionality, it also stores the current `pc`+4 into register `rd`.
+
+#### `csrw csr, rs` 
+Control/status register write pseudo-instruction; writes `rs` into `csr`.
+
+#### `csrr rd, csr` 
+Control/status register read pseudo-instruction; writes `csr` into `rd`.
+
+#### `andi rd, rs1, imm` 
+Bitwise and instruction with immediate; writes the AND between `rs1` and the sign-extended 12-bit immediate `imm` into `rd`.
+
+#### `srli rd, rs1, imm`
+Logical right shift; writes `rs1 >> imm` into `rd` (zeros are shifted into upper bits).
+
+#### `li rd, const`
+Load-immediate pseudo-instruction; gets translated into `lui rd, const[20:0]` and `addi rd, rd, const[11:0]`.
+
+#### `lui rd, imm`
+Loads 20-bit upper immediate `imm` (i.e., shifted left by 12) into `rd`.
+
+#### `beq rs1, rs2, imm`
+Branch-equal instruction; if `rs1` = `rs2`, then jump to the address computed by adding the sign-extended 12-bit immediate `imm` to the current `pc`.
+
+#### `sw rs1, rs2, imm`
+Store word instruction; store `rs1` into the address computed by adding the sign-extended 12-bit immediate `imm` to `rs2`.
+
+#### `bltu rs1, rs2, imm`
+Branch-equal instruction; if `rs1` < `rs2` (unsigned comparison), then jump to the address computed by adding the sign-extended 12-bit immediate `imm` to the current `pc`.
