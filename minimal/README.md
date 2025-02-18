@@ -13,6 +13,22 @@ make dis > disassembly.S
 ```
 Then, open `disassembly.S` in the editor.
 
+## Tracing execution
+To run with instruction tracer,
+```
+make run runner_args="--trace=insn" > trace.log
+```
+You can open `trace.log` in the editor; you will see a full execution trace, such as
+```
+22661542: 1632: [34m/chip/soc/fc/insn                                            ] -:0                              M 1c008080 auipc               a0, 0x0           a0=1c008080 
+22744834: 1638: [34m/chip/soc/fc/insn                                            ] -:0                              M 1c008084 addi                a0, a0, 1304      a0=1c008598  a0:1c008080 
+22758716: 1639: [34m/chip/soc/fc/insn                                            ] -:0                              M 1c008088 jalr                0, a0, 0          a0:1c008598 
+```
+The interpretation is as follows:
+```
+time:     cycle:[component                                                       ] -:0                              M address  instruction         arguments         register values
+```
+
 ## Launching GDB (the debugger)
 To start GDB, open two terminals. In one launch
 ```
@@ -152,7 +168,7 @@ Bitwise and instruction with immediate; writes the AND between `rs1` and the sig
 Logical right shift; writes `rs1 >> imm` into `rd` (zeros are shifted into upper bits).
 
 #### `li rd, const`
-Load-immediate pseudo-instruction; gets translated into `lui rd, const[20:0]` and `addi rd, rd, const[11:0]`.
+Load-immediate pseudo-instruction; gets translated into `lui rd, const[31:12]` and `addi rd, rd, const[11:0]`.
 
 #### `lui rd, imm`
 Loads 20-bit upper immediate `imm` (i.e., shifted left by 12) into `rd`.
@@ -165,3 +181,6 @@ Store word instruction; store `rs1` into the address computed by adding the sign
 
 #### `bltu rs1, rs2, imm`
 Branch-equal instruction; if `rs1` < `rs2` (unsigned comparison), then jump to the address computed by adding the sign-extended 12-bit immediate `imm` to the current `pc`.
+
+#### `ret`
+Pseudo-instruction; gets translated into `jalr ra, x0, 0`.
