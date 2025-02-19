@@ -20,6 +20,14 @@
 
 #include "pmsis.h"
 
+int square(
+  int num
+) {
+  return num * num;
+}
+
 int main() {
-  return 0;
+  int x = 5;
+  int y = square(x);
+  return y;
 }
