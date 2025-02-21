@@ -58,7 +58,7 @@ Try to follow how the program evolves instruction by instruction.
 You can find a more complete GDB cheat sheet below, but for this experiment you can simply follow the instructions here.
 The first instruction is at address `0x1c008080`, so break there:
 ```
-(gdb) b 0x1c008080
+(gdb) b *0x1c008080
 Breakpoint 1 at 0x1c008080: file /app/pulp-sdk/rtos/pulpos/common/kernel/crt0.S, line 133.
 (gdb) c
 (gdb) display/4i $pc
