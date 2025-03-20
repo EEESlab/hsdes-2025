@@ -1,7 +1,7 @@
 
 APP = test
 
-APP_SRCS	+= test2.c
+APP_SRCS	+= test1.c
 APP_CFLAGS 	+= -O3 -g
 APP_LDFLAGS += 
 
