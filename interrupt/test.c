@@ -20,13 +20,20 @@
 
 #include "pmsis.h"
 
+int global = 0;
+
+__attribute__ ((interrupt)) 
+void timer_handler (void) {
+  global++;
+}
+
 int main() {
 
   // disable interrupts (not simulated in GVSOC)
   hal_irq_disable();
 
   // push interrupt to now + 1ms
-  int us = 1000; // 1ms
+  int us = 10000; // 10ms
   int ticks = us / (1000000 / ARCHI_REF_CLOCK) + 1;
   printf("Ticks=%d\n", ticks);
     // In order to simplify time comparison, we sacrify the MSB to avoid overflow
@@ -42,14 +49,19 @@ int main() {
                   TIMER_CFG_LO_IRQEN(1) |
                   TIMER_CFG_LO_CCFG(1));
 
+  pos_irq_set_handler(ARCHI_FC_EVT_TIMER0_HI, timer_handler);
+  // masking (not simulated in GVSOC)
+  pos_irq_mask_set(0 << ARCHI_FC_EVT_TIMER0_HI);              
+
   // re-enable interrupts (not simulated in GVSOC)
   hal_irq_enable();
   // WFI
   hal_itc_wait_for_interrupt();
 
-  printf("HELLO!\n");
+  uint32_t actual_time = timer_count_get(timer_base_fc(0, 1));
+  printf("HELLO %d (if =1, ISR has worked)!\n", global);
   printf("Start=%d\n", current_time);
-  printf("End=%d vs set=%d\n", timer_count_get(timer_base_fc(0, 1)), future_time);
+  printf("End=%d vs set=%d\n", actual_time, future_time);
 
   return 0;
 }
