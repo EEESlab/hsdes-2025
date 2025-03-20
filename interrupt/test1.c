@@ -32,7 +32,7 @@ int main() {
   // disable interrupts (not simulated in GVSOC)
   hal_irq_disable();
 
-  // push interrupt to now + 1ms
+  // push interrupt to now + 10ms
   int us = 10000; // 10ms
   int ticks = us / (1000000 / ARCHI_REF_CLOCK) + 1;
   printf("Ticks=%d\n", ticks);
