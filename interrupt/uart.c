@@ -53,6 +53,7 @@ static inline void bitbang_putbit(int b) {
   hal_itc_wait_for_interrupt();
 }
 
+// 8N1
 int bitbang_putchar(char c) {
   if(c == '\0') {
     return 0;

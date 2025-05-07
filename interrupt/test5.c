@@ -25,7 +25,6 @@ int global_ticks = -1;
 int global = 1;
 int pin_status = 1;
 
-// uint8_t data[] = "Nel mezzo del cammin di nostra vita\nMi ritrovai per una selva oscura\nChe la diritta via era smarrita\nAh! quanto a dir qual era e' cosa dura\nQuesta selva selvaggia e aspra e forte\nChe nel pensier rinova la paura\n";
 uint8_t data[] = "Nel mezzo del cammin di nostra vita";
 
 static inline void timer_activate(void) {
